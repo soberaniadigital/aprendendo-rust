@@ -20,7 +20,7 @@ fn main() {
     println!("In file {}", config.file);
     
     for line in contents {
-        println!("\x1b[31m{}\x1b[0m",line)
+        println!("\x1b[32m{}\x1b[0m : \x1b[31m{}\x1b[0m",line.line,line.content)
     }
     
 }

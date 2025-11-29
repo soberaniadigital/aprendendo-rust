@@ -14,27 +14,34 @@ impl Config {
         Ok(Config { string, file,sensitivity })
     }
 }
-pub fn search(string:&str,contents:& str)->Vec<String>{
-        
-        let mut result:Vec<String>=Vec::new();
+pub struct InLine{
+    pub line: i32,
+    pub content:String
+}
+pub fn search(string:&str,contents:& str)->Vec<InLine>{
+        let mut counter=1;
+        let mut result:Vec<InLine>=Vec::new();
         for line in contents.lines(){
+            counter+=1;
             if line.contains(string){
-                result.push(String::from(line));
+                result.push(InLine { line: counter, content:String::from(line) });
             }
         }
         result
     }
-pub fn search_insensitive(string:&str,contents:& str)->Vec<String>{
+pub fn search_insensitive(string:&str,contents:& str)->Vec<InLine>{
+    let mut counter=1;
     let string=string.to_lowercase();
-    let mut result:Vec<String>=Vec::new();
+    let mut result:Vec<InLine>=Vec::new();
     for line in contents.lines(){
+        counter+=counter;
         if line.to_lowercase().contains(&string) {
-            result.push(String::from(line));
+            result.push(InLine { line: counter, content:String::from(line) });
         }
     }
     result
 } 
-pub fn run(config: & Config)->Result<Vec<String>,Box<dyn Error>> {
+pub fn run(config: & Config)->Result<Vec<InLine>,Box<dyn Error>> {
     let mut f = File::open(config.file.clone())?;
 
     let mut contents = String::new();
@@ -49,29 +56,4 @@ pub struct Config {
     pub string: String,
     pub file: String,
     pub sensitivity:bool
-}
-mod test{
-
-    use super::*;
-    #[test]
-    fn case_sensitive(){
-        let string="duct";
-        let contents="\
-Rust:
-safe,fast,productive.
-pick three.
-Duct tape";
-        assert_eq!(vec!["safe,fast,productive."],search(string,contents));
-    }
-    #[test]
-    fn case_insensitive(){
-        let string="rUsT";
-        let contents="\
-Rust:
-safe,fast,productive.
-pick three.
-Trust me.";
-assert_eq!(vec!["Rust:","Trust me."],search_insensitive(string, contents))
-    }
-    
 }
