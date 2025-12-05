@@ -1,4 +1,5 @@
-use clap::Parser; //Importando o analisador da biblioteca clap
+//Importando o analisador da biblioteca clap
+use clap::Parser;
 
 #[derive(Parser)]
 #[command(
@@ -7,17 +8,22 @@ use clap::Parser; //Importando o analisador da biblioteca clap
     author = "João Filipe",
     about = "Um exemplo de CLI simples em Rust"
 )]
-struct Args { //Args de Arguments
+//Args de Arguments
+struct Args { 
 
-    #[arg(short, long)] //Permite chamar o argumento usando um nome curto (short), e também seu nome por extenso
-    argumento: Option<String>, //Option pois o usuario pode não digitar nada, e então será None
+    //Permite chamar o argumento usando um nome curto (short), e também seu nome por extenso
+    #[arg(short, long)]
+    //Option pois o usuario pode não digitar nada, e então será None
+    argumento: Option<String>,
 
     #[arg(short, long)]
-    opcional: bool, //Argumento não obrigatório. Será True se for usado
+     //Argumento não obrigatório. Será True se for usado
+    opcional: bool,
 }
 
 fn main() {
-    let args = Args::parse(); //Declarando um Args, e usando parse() para analisar os argumentos
+    //Declarando um Args, e usando parse() para analisar os argumentos
+    let args = Args::parse(); 
 
     println!("=====CLI=====\n");
 
